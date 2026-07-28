@@ -1,0 +1,22 @@
+apiVersion: apps/v1                
+kind:  Deployment                  
+metadata:                          
+    name: configmap-deployment-injecting-env-variables-at-1time          
+spec:                                
+    replicas: 3                        
+    selector:                  
+        matchLabels:            
+            app: nginx_label    
+    template:                   
+        metadata:               
+            labels:
+                app: nginx_label
+        spec:               
+            containers:
+            - name: nginx-container    
+              image: nginx:latest
+              ports:
+              - containerPort: 80
+              envFrom:
+              - configMapRef:
+                    name: yogi-configmap-env

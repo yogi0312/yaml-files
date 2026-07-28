@@ -1,0 +1,14 @@
+1. In google type "helm install ubuntu"
+
+2. Select https://helm.sh/docs/intro/install/ (Will got there website)
+
+3. In Ubuntu Run the following command to check helm is installed or not:
+which helm
+
+4. To install helm use the following command:
+curl -s https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+
+5. To check Helm Version use: helm version
+
+6. To create Helm-chart with default templates and files use the following commands: 
+helm create <chart-name>

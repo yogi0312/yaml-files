@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: yogi-configmap-yaml
+data:
+    DB_URL: "ec2-13-206-201-73.ap-south-1.compute.amazonaws.com"
+    SESSION_TIMEOUT: "300"

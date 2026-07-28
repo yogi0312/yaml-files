@@ -1,0 +1,4 @@
+DB_URL="ec2-13-206-201-73.ap-south-1.compute.amazonaws.com"
+SESSION_TIMEOUT="300"
+APP_NAME=user_api
+ENVIRONMENT=production

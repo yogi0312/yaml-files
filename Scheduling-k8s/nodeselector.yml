@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: volume-container-pod-name
+spec:
+  nodeSelector:
+    tier: frontend
+  containers:
+  - name: ip-app-container-name
+    image: harshajain/ip_app:2
+    ports:
+    - containerPort: 80

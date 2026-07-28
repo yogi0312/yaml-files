@@ -1,0 +1,27 @@
+apiVersion: apps/v1                
+kind:  Deployment                  
+metadata:                          
+    name: priority-class-deployment          
+spec:                                
+    replicas: 3                        
+    selector:                  
+        matchLabels:            
+            app: priority-class-label    
+    template:                   
+        metadata:               
+            labels:
+                app: priority-class-label
+        spec:               
+            containers:
+            - name: priority-class-container    
+              image: nginx:latest
+              ports:
+              - containerPort: 80
+              
+              resources:
+                requests:
+                    cpu: "200m"
+                    memory: "128Mi"
+                limits:
+                    cpu: "200m"
+                    memory: "128Mi"

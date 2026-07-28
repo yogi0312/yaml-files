@@ -1,0 +1,18 @@
+1. To taint a node using NoSchedule use the following command:
+
+kubectl taint nodes node1 key1=value1:NoSchedule    
+# NoSchedule means that pods that do not tolerate the taint will not be scheduled on the node.
+
+i.e.: kubectl taint nodes ip-172-31-33-8 environment=frontend:NoSchedule
+
+2. To untaint the node, use the following command:
+kubectl taint nodes node1 key1=value1:NoSchedule-
+
+i.e.: kubectl taint nodes ip-172-31-33-8 environment=frontend:NoSchedule-
+
+3. To taint a node using NoExecute use the following command:
+
+kubectl taint nodes node1 key1=value1:NoExecute    
+# NoExecute means don't allow any new pods and removes existing pods that do not tolerate the taint.
+
+i.e.: kubectl taint nodes ip-172-31-33-8 environment=frontend:NoExecute

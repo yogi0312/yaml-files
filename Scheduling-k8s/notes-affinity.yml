@@ -1,0 +1,16 @@
+1. Affinity is an advanced feature in Kubernetes that controls where pods are scheduled based on node labels and 
+other criteria using flexible rules.
+
+2. Affinity is of 3 types: node affinity, pod affinity, and pod anti-affinity.
+
+3. Node affinity is similar to nodeSelector but more expressive and flexible. 
+It allows you to specify rules for scheduling pods based on labels on nodes.
+
+4. Types of node affinity:
+   a. requiredDuringSchedulingIgnoredDuringExecution: The rule must be satisfied for the pod to be scheduled on a node. 
+   If no matching node is found, the pod will not be scheduled,
+   b. preferredDuringSchedulingIgnoredDuringExecution: 
+   This type of node affinity specifies rules that are preferred but not required for scheduling a pod on a node. 
+   If the preferred rules are not met, the pod may still be scheduled on that node.
+
+5. topologyKey is used to specify the topology domain (e.g., region, zone) for node affinity rules.

@@ -1,0 +1,43 @@
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: critical
+value: 1000000
+globalDefault: false
+preemptionPolicy: PreemptLowerPriority
+description: "payment, Auth, cert-manager, prometheus"
+
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: high
+value: 100000
+globalDefault: false
+preemptionPolicy: PreemptLowerPriority
+description: "payment, Auth, cert-manager, prometheus"
+
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: medium
+value: 10000
+globalDefault: false
+preemptionPolicy: PreemptLowerPriority
+description: "payment, Auth, cert-manager, prometheus"
+
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: low
+value: 1000
+globalDefault: true           # It will take this as a priority
+preemptionPolicy: PreemptLowerPriority
+description: "payment, Auth, cert-manager, prometheus"
+
+# Note: If we don't define any priority class, k8s will put zero
+# If we don't mention priority class, the default priority class the pod gets into is "medium"
+# If we are making 1 priority class as globalDefault: true (default), all others should be globalDefault: false
+# We can't have 2 priority class as default=true  

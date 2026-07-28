@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: development-namespace-name      # This is the name of the namespace where the ResourceQuota will be applied.
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: dev-resourcequota-name          # This is the name of the ResourceQuota.
+  namespace: development-namespace-name
+spec:
+  hard:
+    count/pods: "4"                     # This specifies the maximum number of pods that can be created in the namespace.
+    count/deployments.apps: "2"         # This specifies the maximum number of deployments that can be created in the namespace.
+
+    requests.cpu: "2"                 # Reserve (guarantee) 2 CPU cores for this container.              
+    requests.memory: 2Gi              # Reserve (guarantee) 2 GiB of memory (RAM) for this container.      
+
+    limits.cpu: "4"
+    limits.memory: 4Gi
+
+    configmaps: "10"
+    secrets: "5"
+
+    persistentvolumeclaims: "5"

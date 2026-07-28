@@ -1,0 +1,30 @@
+apiVersion: apps/v1                
+kind:  Deployment                  
+metadata:                          
+    name: nginx-deployment          
+spec:                                
+    replicas: 3                        
+    selector:                  
+        matchLabels:            
+            app: nginx_label    
+    template:                   
+        metadata:               
+            labels:
+                app: nginx_label
+        spec:               
+            containers:
+            - name: nginx-container    
+              image: nginx:latest
+              ports:
+              - containerPort: 80
+              env:
+                - name: ENVIRO_CONTAINER
+                  valueFrom:
+                    configMapKeyRef:
+                        name: yogi-configmap-env
+                        key: ENVIRONMENT
+                - name: ENVIRO_SESSION_TIMEOUT
+                  valueFrom:
+                    configMapKeyRef:
+                        name: yogi-configmap-yaml
+                        key: SESSION_TIMEOUT

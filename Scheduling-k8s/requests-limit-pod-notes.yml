@@ -1,0 +1,24 @@
+1. Create a python script that allocates memory in chunks and prints the total allocated memory every second. 
+The script should run indefinitely until it is terminated.
+
+2. As shown in yaml file named "requests-limit-pod.yml", 
+the script should be executed in a Kubernetes pod with specified memory requests and limits. 
+The pod should request 100Mi of memory and limit it to 100Mi, which will place it in the "Guaranteed" QoS class.
+
+3. cd scheduling
+
+4. Create a new file named "requests-limit-oomkilled-pod.yml" and copy the provided YAML configuration into it. 
+Use the following command to create and edit the file:
+    sudo vi requests-limit-oomkilled-pod.yml
+
+5. Apply the pod configuration using the command:
+   kubectl apply -f requests-limit-oomkilled-pod.yml
+
+6. kubectlget pods
+
+Result:
+NAME                                READY   STATUS      RESTARTS       AGE
+requests-limit-oomkilled-pod-name   0/1     OOMKilled   4 (112s ago)   3m12s
+
+7. Note: Still we have RAM, why it is killed? 
+The pod is killed because it exceeded its memory limit of 100Mi.

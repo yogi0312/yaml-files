@@ -1,0 +1,32 @@
+#--------------------------------------------------------------------------------------------------------------------------------------#
+HPA: It automatically increases or decreases the number of pod replicas, based on resource usage or other metrics
+
+VPA (Vertical Pod Autoscaler): It automatically adjusts the CPU and memory requests and limits of Pods based on their resource usage.
+#--------------------------------------------------------------------------------------------------------------------------------------#
+Step 1 — Install Metrics Server
+Reference: https://github.com/kubernetes-sigs/metrics-server
+
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.
+#--------------------------------------------------------------------------------------------------------------------------------------#
+Step 2 — Edit the Metrics Server Deployment
+
+To Open the deployment for editing:
+-----------------------------------
+kubectl edit deployment -n kube-system metrics-server
+
+Add the following argument under spec.containers[].args:
+--------------------------------------------------------
+args:
+  - --kubelet-insecure-tls
+
+Example snippet in context:
+---------------------------
+spec:
+  containers:
+    - name: metrics-server
+      args:
+        - --cert-dir=/tmp
+        - --secure-port=4443
+        - --kubelet-insecure-tls        # <-- add this line
+        - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+#--------------------------------------------------------------------------------------------------------------------------------------#

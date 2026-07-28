@@ -1,0 +1,9 @@
+1. Create a yaml file name resourcequota-with-namespace.yml for resourcequota
+
+2. Apply the file using the following command:
+kubectl apply -f resourcequota-with-namespace.yml
+
+3. Create a yaml file named resourcequota-pod-creation-using-deployment.yml for pod creation
+
+4. To scale use the following command:
+kubectl scale deployment.apps/resourcequota-deployment --replicas=6   # changing replica from 3 to 6

@@ -1,0 +1,32 @@
+apiVersion: apps/v1                 
+kind:  StatefulSet                  
+metadata:                          
+    name: ip-app-statefulset          
+spec:
+    serviceName: ip-app-headless-service
+    replicas: 3                        
+    selector:                  
+        matchLabels:            
+            app: ip-app-label   
+    template:                   
+        metadata:               
+            labels:
+                app: ip-app-label
+        spec:               
+            containers:
+            - name: ip-app-container
+              image: harshajain/ip_app:2
+              ports:
+              - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ip-app-headless-service
+spec:
+    clusterIP: None
+    selector:
+        app: ip-app-label
+    ports:
+        - port: 80
+          targetPort: 80

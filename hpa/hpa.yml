@@ -1,0 +1,24 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: yogi-hpa
+spec:   # it is a database resource
+  minReplicas: 1
+  maxReplicas: 5    # decided based on our requirements
+  scaleTargetRef:      # means which deployment or statefulset to scale
+    apiVersion: apps/v1
+    kind: Deployment
+    name: main-app
+  metrics:
+  - type: Resource
+    resource:
+      # for cpu utilization
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+      # For memory usage
+     # name: memory
+     # target:
+     #   type: AverageValue     # To get accurate value of RAM
+      #  averageUtilization: 500Mi

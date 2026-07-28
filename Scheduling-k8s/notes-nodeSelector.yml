@@ -1,0 +1,19 @@
+1. Create a yaml file as shown in nodeselector.yml
+
+2. Add a label to the nodeSelector using the following command:
+kubectl label <resource-type> <resource-name> <key>=<value>
+
+kubectl label node <worker-node-ip{node-name}> <key>=<value>
+
+i.e.: kubectl label node ip-172-31-33-34 tire=frontend {tire=frontend because it is the key value pair used in the nodeSelector in the yaml file
+name nodeselector.yml}
+
+3. To remove or delete the label from the node, use the following command: 
+kubectl label node <node-name> <key>- {- is used to remove the label from the node}
+
+i.e.: kubectl label node ip-172-31-33-34 tire-
+
+4. By default, we cannot update or change or overwrite the label, to do that we should use overwrite.
+
+5. To change or update or overwrite the existing label, use the following command:
+kubectl label node <node-name> <key>=<new-value> --overwrite

@@ -1,0 +1,56 @@
+#-------------------------------------------------------------------------------------------------------------------------------------------#
+1. In google search "argocd install"
+
+2. Select "https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/"
+
+3. kubectl create ns argocd
+
+4. kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+5. kubens argocd    # To switch the namespace from default to argocd
+
+Note: I want to access argocd-server, by default it is in ClusterIP, I want to convert ClusterIP into Nodeport
+We can do it using kubectl edit
+But we need to change only 1 field i.e. ClusterIP, so we can use patch i.e. kubectl patch
+
+6. kubectl patch svc argocd-server -n argocd -p '{"spec":{"type":"NodePort"}}'
+
+7. <publicIP:portNum> {13.127.106.106:32467} to connect to argocd
+
+8. To get the crendiatials to login into argocd, we use secrets
+
+9. kubectl get secrets
+
+10. To get password, use the following command: 
+kubectl describe secrets argocd-initial-admin-secret
+
+Output:
+-------
+Name:         argocd-initial-admin-secret
+Namespace:    argocd
+Labels:       <none>
+Annotations:  <none>
+
+Type:  Opaque
+
+Data
+====
+password:  16 bytes
+
+Note: If I use the above command, in the output we will not be able to see password as it is encoded
+
+11. To get password which is in base64 format, use the following command: 
+kubectl get secrets -n argocd argocd-initial-admin-secret -o jsonpath='{.data.password}'
+
+Output:
+-------
+UXhMUWhxYXRObWxrRGVzaQ==
+
+12. To convert the above output from base64 to normal(actual password), use the following command:
+kubectl get secrets -n argocd argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d
+#-------------------------------------------------------------------------------------------------------------------------------------------#
+Note:
+-----
+* We can't add a cluster to an argocd using dashboard
+* We can add a cluster using argocd CLI or we can use yaml files
+#-------------------------------------------------------------------------------------------------------------------------------------------#

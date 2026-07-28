@@ -1,0 +1,81 @@
+#---------------------------------------------------------------------------------------------------------------------#
+Step 1: Create an ServiceAccount
+#---------------------------------------------------------------------------------------------------------------------#
+#---------------------#
+* Under RBAC directory
+#---------------------#
+1. Create an YAML file for service-account (sudo vi service-account.yml)
+2. Config is in service-account.yml
+3. kubectl apply -f service-account.yml
+4. kubectl get sa
+#---------------------------------------------------------------------------------------------------------------------#
+Step 2: Create an Secrets(tokens)
+#---------------------------------------------------------------------------------------------------------------------#
+#---------------------#
+* Under RBAC directory
+#---------------------#
+1. Create an YAML file for tokens[secrets] (sudo vi service-account-tokens.yml)
+2. Config is in service-account-tokens.yml
+3. kubectl apply -f service-account-tokens.yml
+4. kubectl get secrets
+5. kubectl describe secrets service-account-admin-token
+#---------------------------------------------------------------------------------------------------------------------#
+Step 3: Create an Roles, RoleBinding, ClusterRole, ClusterRoleBinding
+#---------------------------------------------------------------------------------------------------------------------#
+Note:
+-----
+(*) We, have predefined roles in AWS
+(*) But, we don't have predefined roles in K8s we have to define our roles
+#---------------------------------------------------------------------------------------------------------------------#
+#---------------------#
+* Under RBAC directory
+#---------------------#
+1. Create an YAML file for Roles (sudo vi role.yml)
+2. Config is in role.yml
+3. Create an YAML file for Role-Binding (sudo vi role-binding.yml)
+4. Config is in role-binding.yml
+5. kubectl apply -f role.yml
+6. kubectl apply -f role-binding.yml
+7. kubectl get role
+8. kubectl describe role pod-deployment-reader
+9. kubectl get rolebinding
+10. kubectl describe rolebinding role-bind-pod-deployment-reader
+#---------------------------------------------------------------------------------------------------------------------#
+#---------------------#
+* Under RBAC directory
+#---------------------#
+1. Create an YAML file for ClusterRole (sudo vi clusterrole.yml)
+2. Config is in clusterrole.yml
+3. kubectl apply -f clusterrole.yml
+4. kubectl get clusterrole
+5. kubectl describe clusterrole pod-deployment-admin
+6. Create an YAML file for ClusterRole-Binding (sudo vi clusterrole-binding.yml)
+7. Config is in clusterrole-binding.yml
+8. kubectl apply -f clusterrole-binding.yml
+9. kubectl get clusterrolebinding
+10. kubectl describe clusterrolebinding role-bind-pod-deployment-reader
+#---------------------------------------------------------------------------------------------------------------------#
+#-----------------------------------------------------#
+* To connect to a Cluster, we need to create a Context
+#-----------------------------------------------------#
+Run the follwing command in local machine:
+1. kubectl config set-context <context-name> --cluster=<cluster-name> --user=<user-name>
+
+i.e.: kubectl config set-context dec-2025-readonly --cluster=dec-2025 --user=service-account-readonly
+i.e.: kubectl config set-context dec-2025-admin --cluster=dec-2025 --user=service-account-admin
+#---------------------------------------------------------------------------------------------------------------------#
+#-----------------------------------------------------#
+* To switch between a Context
+#-----------------------------------------------------#
+Run the following command in local machine:
+1. kubectl config use-context <context-name>
+
+i.e.: kubectl config use-context dec-2025-readonly
+i.e.: kubectl config use-context dec-2025-admin
+
+2. Instead of using the above big command to switch between a context, use the following command:
+kubectx <context-name>
+
+i.e.: kubectx dec-2025-admin
+i.e.: kubectx dec-2025-readonly
+#---------------------------------------------------------------------------------------------------------------------#

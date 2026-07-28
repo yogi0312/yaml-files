@@ -1,0 +1,47 @@
+1. Launch an ec2 instance
+
+2. Update using the following command:
+sudo apt  update
+
+3. Install nginx using the following command:
+sudo apt install -y nginx
+
+4. The default location of nginx is: /etc/nginx
+
+5. cd /etc/nginx
+
+6. To allow incoming traffic: go to aws and edit inbound rules in security
+
+7. Take Public IP and paste in browser {to check nginx is working or not}
+
+8. To check docker is installed or what use the following command:
+docker ps
+
+9. If Docker not installed, install docker first:
+# Add Docker's official GPG key:
+sudo apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+
+10. Install the Docker packages:
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+11. To check whether Docker is installed or what:
+sudo docker images
+
+12. To run Jenkins use the following command:
+sudo docker run -d -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home --name jenkins-master jenkins/jenkins:lts

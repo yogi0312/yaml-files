@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: requests-limit-oomkilled-pod-name
+spec:
+  containers:
+  - name: requests-limit-memory-overloaded-container
+    image: python:3.11-slim
+    command: ["python3", "-c"]       # inline means that the command is specified directly in the YAML file and copying to the image
+    args:
+    - |                              # pipe symbol is equivalent to triple quotes in Python, allowing for multi-line strings
+      import time
+      CHUNK = 10*1024*1024
+      # 10 MB chunk size to allocate in each iteration
+      held = []
+      total = 0
+      while True:
+          block = bytearray(CHUNK) 
+          # touch every page so the krenel actually backs it with RAM
+          for i in range(0, CHUNK, 4096):
+              block[i] = 1
+          held.append(block)
+          total += CHUNK
+          print(f"Allocated {total // (1024*1024)} MB of memory", flush=True)
+          time.sleep(1)  # Sleep for a short duration to avoid overwhelming the system too quickly
+    resources:
+      requests:
+        memory: "100Mi"  # Requesting 100 MiB of memory
+      limits:
+        memory: "100Mi"  # Limiting to 100 MiB of memory
+# if the pod exceeds the memory limit, it will be terminated by the Kubernetes system, resulting in an OOMKilled status.
+# memory requests = memory limits, so it belong to the "Guaranteed" QoS class.

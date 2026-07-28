@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: yogi-job
+spec:
+  completions: 2      # specifies the total number of successful pod executions needed for the job to be considered complete. Default is 1
+  parallelism: 2     # specifies the maximum number of pods that can run in parallel. Default is 1
+  activeDeadlineSeconds: 5  # if the job is not completed within this time frame i.e. 5 seconds, it will be terminated or considered failed
+  backoffLimit: 10    # it will create 10 pods and then it will stop creating new pods if the job fails. Default is 6
+  ttlSecondsAfterFinished: 60  # used to delete the job after a certain time period once it has completed
+  template:
+    spec:
+      containers:
+      - name: busybox-container
+        image: busybox:latest
+        command: ["sleep", "10"]
+      restartPolicy: Never

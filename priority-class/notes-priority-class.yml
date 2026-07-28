@@ -1,0 +1,10 @@
+1. Create a yaml file for PriorityClass named "priority-class.yml"
+
+2. Use the below command to create a yaml file and add the config which is in the above file
+sudo vi priority-class.yml
+
+3. kubectl apply -f priority-class.yml
+
+4. kubectl get pc
+
+5. Create a pod as shown in priorityclass-pod-creation-using-deployment

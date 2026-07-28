@@ -1,0 +1,27 @@
+apiVersion: apps/v1                
+kind:  Deployment                  
+metadata:                          
+    name: resourcequota-deployment          
+spec:                                
+    replicas: 3                        
+    selector:                  
+        matchLabels:            
+            app: resourcequaota-label    
+    template:                   
+        metadata:               
+            labels:
+                app: resourcequaota-label
+        spec:               
+            containers:
+            - name: resoucequota-container    
+              image: nginx:latest
+              ports:
+              - containerPort: 80
+              
+              resources:
+                requests:
+                    cpu: "200m"
+                    memory: "128Mi"
+                limits:
+                    cpu: "200m"
+                    memory: "128Mi"

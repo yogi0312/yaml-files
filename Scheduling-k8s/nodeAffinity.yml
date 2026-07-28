@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-affinity-pod-name
+spec:
+  affinity:
+    nodeAffinity:     
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: tier
+            operator: NotIn
+            values:
+            - frontend
+  containers:
+  - name: ip-app-container-name
+    image: harshajain/ip_app:2
+    ports:
+    - containerPort: 80
+
+# weight is used when we want to give preference to certain rules over others.
+# weight is used along with preference by removing nodeSelectorTerms and using preference instead. 
+# The higher the weight, the more preferred the rule is.
+# weight is used when we have multiple node affinity with same key
+
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#  name: node-affinity-pod-name
+# spec:
+#  affinity:
+#    nodeAffinity:     
+#      requiredDuringSchedulingIgnoredDuringExecution:
+#        - weight: 80   # weight 80 will be have more preference than weight 20. 
+#          preference:
+#          matchExpressions:
+#          - key: tier
+#            operator: NotIn
+#            values:
+#            - frontend
+#      requiredDuringSchedulingIgnoredDuringExecution:
+#        - weight: 20
+#          preference:
+#          matchExpressions:
+#          - key: tier
+#            operator: NotIn
+#            values:
+#            - frontend
+#  containers:
+#  - name: ip-app-container-name
+#    image: harshajain/ip_app:2
+#    ports:
+#    - containerPort: 80

@@ -1,0 +1,43 @@
+#---------------------------------------------------------------------------------------------------------------------#
+Context means controlling the k8s cluster from my local machine
+Context is a set of access parameters that contains information about the cluster, user, and namespace. 
+It allows you to switch between different clusters and namespaces easily.
+Context is defined in the kubeconfig file, which is usually located at ~/.kube/config.
+Context is a combination of cluster and account information that allows you to access a specific Kubernetes cluster.
+#---------------------------------------------------------------------------------------------------------------------#
+Setting up a cluster
+#-------------------#
+In ubuntu run "kubectl cluster-info" which gives IP of the machine
+
+In local machine, run the following command to set up a cluster:
+kubectl config set-cluster <cluster-name> --server=<api-server-url(publicIP:portnum)> --insecure-skip-tls-verify=true
+
+Example:
+kubectl config set-cluster dec-2025 --server=https://13.234.35.226:6443 --insecure-skip-tls-verify=true
+
+Note: If we check in config file, the cluster will be set [C:\Users\dell\.kube\config]
+
+In local machine, run the following command to set up an account:
+kubectl config set-credentials <credential-name> --token=<paste-token>
+
+Note: To find token in ubuntu machine run "kubectl describe secret <service-account-name>{service-account-readonly-token}"
+Note: Replace service-account-name with service-account-readonly-token while applying the command 
+
+Example:
+kubectl config set-credentials service-account-readonly --token=eyJhbGciOiJSUzI1NiIsImtpZCI6IjZpNnN0V3M1eHZfSml2TUFzTDN4QkYxQlVBaXNhalFvV0pHQlNjWk1EUkEifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6InNlcnZpY2UtYWNjb3VudC1yZWFkb25seS10b2tlbiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtcmVhZG9ubHkiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJhOWRiZWFlOS0wYmIzLTRmZGUtYTgwMy03ZDZjMjc4NTAxZmQiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDpzZXJ2aWNlLWFjY291bnQtcmVhZG9ubHkifQ.euONoZLN9q_hBxZdm9LnqCx70miWZGEclCo6qmEAOiz75bf-xciYxwCXr_aGCsHsiCUBIibSrKePw_uLrCQjtMzVhe5h9QA2dgCbW_UIiovesS96rh7rrYQY-bCdDTq4Hr64jYkkJAXaaXd2Yn5MfNwHGkSHxfEF5dwoM2jxsHubTwOaGIhJPvmbGSjY6BEbbstJj-I1Blrv0ilW8Kwe9Fh4TGmAuccmHI8T6gaZSB4SA8scvj3_NOZuO_hVUxzv5kLo5c6HQfrGIdI1rkCjVuGxUmlrI8qDqgWDVai164tkrGQ03tAFUncib-2TJtIfsYh0zxJpJTB4MZF1dKknyw
+
+Note: If we check in config file, the account will be set [C:\Users\dell\.kube\config]
+
+To create an account to add one more user i.e. service-account-admin[As we created 2 service accounts{service-account-readonly and service-account-admin}] run the following command:
+"kubectl get sa"
+
+In local machine, run the following command to set up an account:
+kubectl config set-credentials <credential-name> --token=<paste-token>
+
+Note: To find token in ubuntu machine run "kubectl describe secret service-account-admin-token"
+
+Example:
+kubectl config set-credentials service-account-admin --token=eyJhbGciOiJSUzI1NiIsImtpZCI6IjZpNnN0V3M1eHZfSml2TUFzTDN4QkYxQlVBaXNhalFvV0pHQlNjWk1EUkEifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6InNlcnZpY2UtYWNjb3VudC1hZG1pbi10b2tlbiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtYWRtaW4iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJlZDFiYmI2MC1lYTJmLTRjMDctYjBjOC1hY2Q5MDViM2FlYWEiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDpzZXJ2aWNlLWFjY291bnQtYWRtaW4ifQ.ZMzCQqZ8vFabFD_J_Q_2jyryxrDnDUUwDYcYdq_P-QuEwXoTFTo8FrRCOLkVf0SuUIh_JarrAtqiVyJNF8BJQ0oG-X53GJ1tSDmFuxDBh2TF-pRlakINpN74iewHagAOFZ9gWMIFNx_4W5a2Ayv49GlKlmd_6hU8wlMVeFqJTVhLX64-jvZqhAq56Ut26ZyCcd-B6Qi79fu0LJSC_zNluejt4zsUAn0ASoqMsZDWJ7gChbGeZl6y52SoGgjHS3z3Wlj9ueE4k0WUblAa-kSNkr-vyuwt3kb78K3dQYgT6Yp6un8nnjyq54T7A2MDuoeenoOhGeDm0Q8Cs_1_Xt_N-w
+#----------------------------------------------------------------------------------------------------------------------------------------------#
+
+Note: To see how to switch between context refer Notes-steps-RBAC

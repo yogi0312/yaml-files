@@ -1,0 +1,3 @@
+kubectl create configmap yogi-configmap-cli \
+--from-literal=APP_NAME=user_api \
+--from-literal=ENVIRONMENT=production

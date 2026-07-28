@@ -1,0 +1,6 @@
+db.host = localhost
+db.port = 3306
+db.username = admin
+db.password = secret_password
+app.title = My Application
+app.enabled = true

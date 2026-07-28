@@ -1,0 +1,28 @@
+#---------------------------------------------------------------------------------------------------------------------#
+1. Launch EC2 Instances for Control Plane and Worker Nodes[Created 1 control plane and 2 worker nodes]
+
+2. To access the scripts run the following command
+curl -s https://raw.githubusercontent.com/yogi0312/k8s/refs/heads/main/Cluster%20Setup/cluster_setup_using_kubeadm_1.36.sh
+
+3. To install master node run the following command
+curl -s https://raw.githubusercontent.com/yogi0312/k8s/refs/heads/main/Cluster%20Setup/cluster_setup_using_kubeadm_1.36.sh | bash -s master
+
+4. To join any number of worker nodes by running the following on each as root:
+kubeadm join 172.31.34.17:6443 --token d0rf5d.jkqmgjf8p345v9vx \
+        --discovery-token-ca-cert-hash sha256:895c071b15f09fe348acf0ccf1a1d7af0e5b427638549777f5bafdd69dfa257a
+
+5. To install worker node run the following command in both worker nodes[i.e. woker node1 nd worker node2 from AWS connect through SSH]
+curl -s https://raw.githubusercontent.com/yogi0312/k8s/refs/heads/main/Cluster%20Setup/cluster_setup_using_kubeadm_1.36.sh | bash -s worker
+
+6. In worker node 1 and worker node 2 run the following command to switch to root user
+sudo su -
+
+7. Allow incoming traffic to port 6443 in control-plane (master node) in AWS
+SG ---> Inbound rules ---> Edit inbound rules ---> Add rule ---> Type: custom TCP, Port range: 6443, source: Anywhere-IPV4 ---> save rules
+
+8. Run the folowing under root user in worker node 1 and worker node 2
+kubeadm join 172.31.34.17:6443 --token d0rf5d.jkqmgjf8p345v9vx \
+        --discovery-token-ca-cert-hash sha256:895c071b15f09fe348acf0ccf1a1d7af0e5b427638549777f5bafdd69dfa257a
+
+9. Run 'kubectl get nodes' on the control-plane to see the worker node join the cluster.
+#---------------------------------------------------------------------------------------------------------------------#
